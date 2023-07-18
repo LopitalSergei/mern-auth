@@ -9,7 +9,7 @@ class UserController {
 
 			return res.json(userData)
 		} catch (e) {
-			console.log(e);
+			next(e)
 		}
 	}
 
@@ -17,7 +17,7 @@ class UserController {
 		try {
 
 		} catch (e) {
-
+			next(e)
 		}
 	}
 
@@ -25,7 +25,7 @@ class UserController {
 		try {
 
 		} catch (e) {
-
+			next(e)
 		}
 	}
 
@@ -35,7 +35,7 @@ class UserController {
 			await userService.activate(activationLink)
 			return res.redirect(process.env.CLIENT_URL)
 		} catch (e) {
-			console.log(e);
+			next(e)
 		}
 	}
 
@@ -43,7 +43,7 @@ class UserController {
 		try {
 
 		} catch (e) {
-
+			next(e)
 		}
 	}
 
@@ -51,7 +51,7 @@ class UserController {
 		try {
 			res.json(['123', 'asd'])
 		} catch (e) {
-
+			next(e)
 		}
 	}
 }
