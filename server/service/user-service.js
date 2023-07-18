@@ -29,7 +29,7 @@ class UserServie {
 		// Сохраняем refresh токен в БД
 		await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
-		// Из функции возвращаем токеты и необходимую информацию о пользователе
+		// Из функции возвращаем токены и необходимую информацию о пользователе
 		return {
 			...tokens,
 			user: userDto
@@ -43,6 +43,24 @@ class UserServie {
 		}
 		user.isActivated = true
 		await user.save()
+	}
+
+	async login(email, password) {
+		const user = await UserModel.findOne({ email })
+		if (!user) {
+			throw ApiError.BadRequest(`Пользователь с email ${email} не найден.`)
+		}
+		const isPassEquals = await bcrypt.compare(password, user.password)
+		if (!isPassEquals) {
+			throw ApiError.BadRequest('Неверный пароль.')
+		}
+		const userDto = new UserDto(user)
+		const tokens = tokenService.generateToken({ ...userDto })
+		await tokenService.saveToken(userDto.id, tokens.refreshToken)
+		return {
+			...tokens,
+			user: userDto
+		}
 	}
 }
 
