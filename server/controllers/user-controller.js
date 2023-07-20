@@ -1,6 +1,6 @@
 const userService = require('../service/user-service')
 const { validationResult } = require('express-validator')
-const ApiError = require('../exeptions/api-error')
+const ApiError = require('../exceptions/api-error')
 
 class UserController {
 	async registration(req, res, next) {
@@ -63,7 +63,8 @@ class UserController {
 
 	async getUsers(req, res, next) {
 		try {
-			res.json(['123', 'asd'])
+			const users = await userService.getAllUsers()
+			return res.json(users)
 		} catch (e) {
 			next(e)
 		}

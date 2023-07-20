@@ -4,7 +4,7 @@ const uuid = require('uuid')
 const mailService = require('../service/mail-service')
 const tokenService = require('../service/token-service')
 const UserDto = require('../dtos/user-dto')
-const ApiError = require('../exeptions/api-error')
+const ApiError = require('../exceptions/api-error')
 
 class UserServie {
 	async registration(email, password) {
@@ -85,6 +85,11 @@ class UserServie {
 			...tokens,
 			user: userDto
 		}
+	}
+
+	async getAllUsers() {
+		const users = await UserModel.find()
+		return users
 	}
 }
 
